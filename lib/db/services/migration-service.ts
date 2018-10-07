@@ -1,28 +1,28 @@
-import * as util from 'util';
-import * as  child_process from 'child_process';
+import * as util from "util";
+import * as  child_process from "child_process";
 const execP = util.promisify(child_process.exec);
+import loggers from "../../tools/loggers";
 
 class MigrationService {
-    static async runMigrations(){
-        const { stdout, stderr } = await execP('npm run migrations');
-        console.log('runMigrations.stdout:');
-        console.log(stdout);
-        console.log('runMigrations.stderr:');
-        console.log(stderr);
-        console.log('Migrations sucsessfully finished');
+    public static async runMigrations() {
+        const { stdout, stderr } = await execP("npm run migrations");
+        global.logger.info("runMigrations.stdout:");
+        global.logger.info(stdout);
+        global.logger.info("runMigrations.stderr:");
+        global.logger.info(stderr);
+        global.logger.info("Migrations sucsessfully finished");
         return true;
     }
 
-    static async runSeeders(){
-        const { stdout, stderr } = await execP('npm run seeders');
-        console.log('runSeeders.stdout:');
-        console.log(stdout);
-        console.log('runSeeders.stderr:');
-        console.log(stderr);
-        console.log('runSeeders sucsessfully finished');
+    public static async runSeeders() {
+        const { stdout, stderr } = await execP("npm run seeders");
+        global.logger.info("runSeeders.stdout:");
+        global.logger.info(stdout);
+        global.logger.info("runSeeders.stderr:");
+        global.logger.info(stderr);
+        global.logger.info("runSeeders sucsessfully finished");
         return true;
     }
-    
 }
 
 export default MigrationService;

@@ -1,10 +1,10 @@
 module.exports = {
   development: {
-    username: 'root',
-    password: 'root',
-    database: 'users',
-    dialect: 'mysql',
-    seederStorage: 'sequelize'
+    username: "root",
+    password: "root",
+    database: "tasks",
+    dialect: "mysql",
+    seederStorage: "sequelize",
 
     // username: process.env.DB_USERNAME,
     // password: process.env.DB_PASSWORD,
@@ -12,6 +12,4 @@ module.exports = {
     // dialect: 'mysql',
     // seederStorage: 'sequelize'
   },
-}
-
-
+};

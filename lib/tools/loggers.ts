@@ -1,43 +1,47 @@
-import * as winston from 'winston';
+import * as winston from "winston";
 
-import * as path from 'path';
+import * as path from "path";
 
-declare let logger: any;
+// declare global { let logger: any; }
 
-let fileSize: number = 1024000;
+declare global {
+  namespace NodeJS {
+    interface Global {
+        logger: any;
+    }
+  }
+}
 
-let myFormat = winston.format.printf(info => {
+const fileSize: number = 1024000;
+
+const myFormat = winston.format.printf( (info) => {
   return `${info.timestamp} ${info.level}: ${info.message}`;
 });
 
 class LoggerService {
-  private _commonLogger: any
+  private _commonLogger: any;
 
-  constructor(){
+  constructor() {
     this._commonLogger = null;
   }
 
-  initLoggers() {
+  public initLoggers() {
     this._commonLogger = this.getCommonLogger();
   }
 
-  initGlobalLogger(){
-    logger = this._commonLogger;
+  public initGlobalLogger() {
+    global.logger = this._commonLogger;
   }
 
-  public getCommonLogger(): any{
-    console.log(winston.version);
-    console.log(path.join(process.cwd(),"logs", "common", "log.log"));
-    console.log(`${__dirname}`);
-    
+  public getCommonLogger(): any {
     const fileLogger = new(winston.transports.File)({
-      filename: path.join('logs', 'common', 'log.log'),
+      filename: path.join("logs", "common", "log.log"),
       handleExceptions: true,
       maxsize: fileSize,
       format: winston.format.combine(
         winston.format.timestamp(),
-        myFormat
-      ) 
+        myFormat,
+      ),
     });
 
     const result = winston.createLogger({
@@ -46,12 +50,12 @@ class LoggerService {
           format: winston.format.combine(
             winston.format.colorize(),
             winston.format.timestamp(),
-           myFormat
-          )
+           myFormat,
+          ),
         }),
-        fileLogger
+        fileLogger,
       ],
-      exceptionHandlers: [fileLogger]
+      exceptionHandlers: [fileLogger],
     });
     return result;
   }

@@ -1,20 +1,18 @@
-import  db from '../models/db';
-import  MigrationService from './migration-service';
+import db from "../models/db";
+import MigrationService from "./migration-service";
+import loggers from "../../tools/loggers";
 
 class DBService {
-    static async initDataBase(){
+    public static async initDataBase() {
         try {
             await db.authenticate();
             await db.sync();
             await MigrationService.runMigrations();
             await MigrationService.runSeeders();
-        }
-        catch (err) {
-            // logger.error('DB init ERROR');
-            // logger.error(err);
-            
+        } catch (err) {
+          global.logger.error("DB init ERROR");
         }
     }
-} 
+}
 
 export default DBService;
